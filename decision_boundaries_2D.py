@@ -1,15 +1,33 @@
 import matplotlib.pyplot as plt
-from sklearn import svm, datasets, model_selection
+from sklearn import svm, datasets, model_selection, preprocessing
 from sklearn.inspection import DecisionBoundaryDisplay
-
+from sklearn.utils import Bunch
+import numpy as np
 
 # Import a dataset
-#my_data = datasets.load_breast_cancer()
-#my_data = datasets.load_wine()
-my_data = datasets.load_iris()
+d_set_name = 'xor' #'wine'  # 'iris'  #  'wine' # 'xor'
+
+# Import a dataset
+match d_set_name:
+    case 'iris':
+        my_data = datasets.load_iris()
+    case 'breast_cancer':
+        my_data = datasets.load_breast_cancer()
+    case 'wine':
+        my_data = datasets.load_wine()
+    case 'xor':
+        Nsamps = 1000
+        A = 2*np.random.rand(1, Nsamps) - 1.0
+        B = 2*np.random.rand(1, Nsamps) - 1.0
+        target = ((A >= 0) | (B >= 0)) & ~((A >= 0) & (B >= 0)).astype(int)
+        target = target.reshape(target.shape[1:])
+        data = np.concatenate([A, B]).transpose()
+        my_data = Bunch(data=data, target=target, feature_names=['A', 'B'])
+
 
 X = my_data.data
 y = my_data.target
+
 # Let's group together labels 1 and 2 so we have a binary problem:
 y[y == 2] = 1
 # To visualize the boundaries we need to look at some 2-D projection of our features,
@@ -18,6 +36,14 @@ X = X[:, :2]
 
 # Split into a train and test set:
 X, Xte, y, yte = model_selection.train_test_split(X, y, test_size=0.33, random_state=1234)
+
+
+# Use the training data to determine normalization parameters:
+scaler = preprocessing.StandardScaler().fit(X)
+
+# Then transform both train and test sets to use this normalization:
+X = scaler.transform(X)
+Xte = scaler.transform(Xte)
 
 # Create some SVM instances and fit to our data.
 C = 1.0  # SVM regularization parameter
@@ -49,6 +75,7 @@ plt.subplots_adjust(wspace=0.4, hspace=0.4)
 X0, X1 = X[:, 0], X[:, 1]
 
 # Now let's plot the decision boundaries and labeled 2-D features
+print(f'Decision Boundaries and Model Accuracies for {d_set_name} Dataset:')
 for clf, title, ax in zip(models, titles, sub.flatten()):
     disp = DecisionBoundaryDisplay.from_estimator(
         clf,
