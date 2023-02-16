@@ -17,7 +17,7 @@ y[y == 2] = 1
 X = X[:, :2]
 
 # Split into a train and test set:
-X, Xte, y, yte = model_selection.train_test_split(X,y,test_size=0.33, random_state=1234)
+X, Xte, y, yte = model_selection.train_test_split(X, y, test_size=0.33, random_state=1234)
 
 # Create some SVM instances and fit to our data.
 C = 1.0  # SVM regularization parameter
