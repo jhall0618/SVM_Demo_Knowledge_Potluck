@@ -16,7 +16,7 @@ match d_set_name:
     case 'xor':
         A = 2 * np.random.rand(1, 1000) - 1.0
         B = 2 * np.random.rand(1, 1000) - 1.0
-        target = ((A >= 0) | (B >= 0)) & ~((A >= 0) & (B >= 0)).astype(int)
+        target = (((A >= 0) | (B >= 0)) & ~((A >= 0) & (B >= 0))).astype(int)
         target = target.reshape(target.shape[1:])
         data = np.concatenate([A, B]).transpose()
         my_data = Bunch(data=data, target=target)
