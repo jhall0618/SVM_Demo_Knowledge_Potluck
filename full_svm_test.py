@@ -1,10 +1,9 @@
 from sklearn import svm, datasets, model_selection
 from sklearn import preprocessing
-from sklearn.utils import Bunch
-import numpy as np
 import jacks_datasets
 
-d_set_name = 'rings' #'wine'  # 'iris'  #  'wine' # 'xor'
+
+d_set_name = 'xor' #'rings' #'wine'  # 'iris'  #  'wine' # 'xor' # 'breast_cancer' #
 
 # Import a dataset
 match d_set_name:

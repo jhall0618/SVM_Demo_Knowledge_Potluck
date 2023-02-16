@@ -1,13 +1,11 @@
 import matplotlib.pyplot as plt
 from sklearn import svm, datasets, model_selection, preprocessing
 from sklearn.inspection import DecisionBoundaryDisplay
-from sklearn.utils import Bunch
-import numpy as np
-
 import jacks_datasets
 
+
 # Import a dataset
-d_set_name = 'rings' #'wine'  # 'iris'  #  'wine' # 'xor'
+d_set_name = 'xor' #'rings' #'wine'  # 'iris'  #  'wine' # 'xor' # 'breast_cancer' #
 
 # Import a dataset
 match d_set_name:
@@ -28,13 +26,13 @@ y = my_data.target
 
 # Let's group together labels 1 and 2 so we have a binary problem:
 y[y == 2] = 1
+
 # To visualize the boundaries we need to look at some 2-D projection of our features,
 # let's just take the first two components (sepal width and length)
 X = X[:, :2]
 
 # Split into a train and test set:
 X, Xte, y, yte = model_selection.train_test_split(X, y, test_size=0.33, random_state=1234)
-
 
 # Use the training data to determine normalization parameters:
 scaler = preprocessing.StandardScaler().fit(X)
