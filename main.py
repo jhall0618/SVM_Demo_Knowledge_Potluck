@@ -12,8 +12,7 @@ y = iris.target
 # Let's group together labels 1 and 2 so we have a binary problem:
 y[y == 1] = 2
 
-# we create an instance of SVM and fit out data. We do not scale our
-# data since we want to plot the support vectors
+# Create some SVM instances and fit to our data.
 C = 1.0  # SVM regularization parameter
 models = (
     svm.LinearSVC(C=C, max_iter=10000),
@@ -25,7 +24,7 @@ models = (
 )
 models = (clf.fit(X, y) for clf in models)
 
-# title for the plots
+# Titles for the plots
 titles = (
     "SVC with linear kernel",
     "LinearSVC (linear kernel)",
@@ -35,14 +34,19 @@ titles = (
     "SVC with polynomial (degree 7) kernel",
 )
 
-# Set-up 2x2 grid for plotting.
+# Set-up 3x2 grid for plotting.
 fig, sub = plt.subplots(3, 2, figsize=(8, 8))
-
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
 
-X0, X1 = X[:, 0], X[:, 1]
+
+
+# We train using all features but to visualize the boundaries we need to look
+# at some 2-D projection of our features, let's just take the first two components (sepal width and length)
 X = X[:, :2]
+X0, X1 = X[:, 0], X[:, 1]
+
+# Now let's plot the decision boundaries and labeled 2-D features
 for clf, title, ax in zip(models, titles, sub.flatten()):
     disp = DecisionBoundaryDisplay.from_estimator(
         clf,
