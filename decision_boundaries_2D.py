@@ -59,12 +59,12 @@ models = (clf.fit(X, y) for clf in models)
 
 # Titles for the plots
 titles = (
-    "SVC with linear kernel",
-    "LinearSVC (linear kernel)",
-    "SVC with RBF kernel, $\gamma$=0.7",
-    "SVC with RBF kernel, $\gamma$=4.0",
-    "SVC with polynomial (degree 2) kernel",
-    "SVC with polynomial (degree 3) kernel",
+    "SVM with linear kernel",
+    "LinearSVM (linear kernel)",
+    "SVM with RBF kernel, $\gamma$=0.7",
+    "SVM with RBF kernel, $\gamma$=4.0",
+    "SVM with polynomial (degree 2) kernel",
+    "SVM with polynomial (degree 3) kernel",
 )
 
 # Set-up 3x2 grid for plotting.
