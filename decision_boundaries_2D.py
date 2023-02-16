@@ -70,7 +70,7 @@ titles = (
 # Set-up 3x2 grid for plotting.
 fig, sub = plt.subplots(3, 2, figsize=(8, 8))
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
-
+fig.suptitle(f'{d_set_name} Dataset')
 # Break the train points into 1st & 2nd dims
 X0, X1 = X[:, 0], X[:, 1]
 
@@ -97,3 +97,4 @@ for clf, title, ax in zip(models, titles, sub.flatten()):
     print(title+f' Accuracy: {acc}')
 
 plt.show()
+
