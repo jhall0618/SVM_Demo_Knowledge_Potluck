@@ -4,8 +4,10 @@ from sklearn.inspection import DecisionBoundaryDisplay
 from sklearn.utils import Bunch
 import numpy as np
 
+import jacks_datasets
+
 # Import a dataset
-d_set_name = 'xor' #'wine'  # 'iris'  #  'wine' # 'xor'
+d_set_name = 'rings' #'wine'  # 'iris'  #  'wine' # 'xor'
 
 # Import a dataset
 match d_set_name:
@@ -16,13 +18,9 @@ match d_set_name:
     case 'wine':
         my_data = datasets.load_wine()
     case 'xor':
-        Nsamps = 1000
-        A = 2*np.random.rand(1, Nsamps) - 1.0
-        B = 2*np.random.rand(1, Nsamps) - 1.0
-        target = (((A >= 0) | (B >= 0)) & ~((A >= 0) & (B >= 0))).astype(int)
-        target = target.reshape(target.shape[1:])
-        data = np.concatenate([A, B]).transpose()
-        my_data = Bunch(data=data, target=target, feature_names=['A', 'B'])
+        my_data = jacks_datasets.retrieve_jacks_data(d_set_name)
+    case 'rings':
+        my_data = jacks_datasets.retrieve_jacks_data(d_set_name)
 
 
 X = my_data.data
@@ -42,6 +40,7 @@ X, Xte, y, yte = model_selection.train_test_split(X, y, test_size=0.33, random_s
 scaler = preprocessing.StandardScaler().fit(X)
 
 # Then transform both train and test sets to use this normalization:
+
 X = scaler.transform(X)
 Xte = scaler.transform(Xte)
 
@@ -71,6 +70,7 @@ titles = (
 fig, sub = plt.subplots(3, 2, figsize=(8, 8))
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
 fig.suptitle(f'{d_set_name} Dataset')
+
 # Break the train points into 1st & 2nd dims
 X0, X1 = X[:, 0], X[:, 1]
 

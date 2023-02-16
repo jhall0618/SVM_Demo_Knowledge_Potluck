@@ -2,8 +2,9 @@ from sklearn import svm, datasets, model_selection
 from sklearn import preprocessing
 from sklearn.utils import Bunch
 import numpy as np
+import jacks_datasets
 
-d_set_name = 'xor' #'wine'  # 'iris'  #  'wine' # 'xor'
+d_set_name = 'rings' #'wine'  # 'iris'  #  'wine' # 'xor'
 
 # Import a dataset
 match d_set_name:
@@ -14,13 +15,9 @@ match d_set_name:
     case 'wine':
         my_data = datasets.load_wine()
     case 'xor':
-        A = 2 * np.random.rand(1, 1000) - 1.0
-        B = 2 * np.random.rand(1, 1000) - 1.0
-        target = (((A >= 0) | (B >= 0)) & ~((A >= 0) & (B >= 0))).astype(int)
-        target = target.reshape(target.shape[1:])
-        data = np.concatenate([A, B]).transpose()
-        my_data = Bunch(data=data, target=target)
-        my_data = Bunch(data=data, target=target, feature_names=['A', 'B'])
+        my_data = jacks_datasets.retrieve_jacks_data(d_set_name)
+    case 'rings':
+        my_data = jacks_datasets.retrieve_jacks_data(d_set_name)
 
 X = my_data.data
 y = my_data.target
